@@ -4,34 +4,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      texts: []
-    };
-  },
-  created() {
-  },
-  mounted() {
-    
-  },
-  methods: {
-    activateOverlay() {
-        const dataToSend = {
-            type: 'activateOverlay',
-            someData: 'Hello from popup!'
-        };
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+const activateOverlay = ()=>{
+  const dataToSend = {
+      type: 'activateOverlay',
+      someData: 'Hello from popup!'
+  };
 
-        // 获取当前活动的标签
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            const activeTab = tabs[0];
-            // 向当前活动的标签发送消息
-            chrome.tabs.sendMessage(activeTab.id, dataToSend);
-        });
-        window.close();
-    }
-  }
+  // 获取当前活动的标签
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      const activeTab = tabs[0];
+      // 向当前活动的标签发送消息
+      chrome.tabs.sendMessage(activeTab.id, dataToSend);
+  });
+  window.close();
 }
 </script>
 <style scoped>
